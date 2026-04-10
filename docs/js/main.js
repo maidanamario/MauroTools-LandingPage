@@ -11,8 +11,20 @@ const state = {
   lastFocusedEl: null,
 };
 
+const ARTICLES_STORAGE_KEY = "maurotools_articles_v1";
+const ARTICLES_URL = "./articles.json";
+
 function sanitizeDigits(value) {
   return String(value || "").replace(/\D+/g, "");
+}
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function buildWhatsAppUrl(message) {
@@ -76,15 +88,22 @@ function validatePhone(raw) {
   return { ok: true, digits, message: "" };
 }
 
-function attachBuyHandlers() {
-  const buyTriggers = Array.from(document.querySelectorAll("[data-buy]"));
-  buyTriggers.forEach((el) => {
-    el.addEventListener("click", (e) => {
-      e.preventDefault();
-      const product = el.getAttribute("data-product") || "";
-      const messageTemplate = el.getAttribute("data-message") || "";
-      openModal({ product, messageTemplate });
-    });
+function attachWhatsAppHandlers() {
+  document.addEventListener('click', (e) => {
+    const cta = e.target.closest('.cta-whatsapp');
+    if (!cta) return;
+    e.preventDefault();
+    const producto = cta.getAttribute('data-producto');
+    const precio = cta.getAttribute('data-precio');
+    let message = "Hola, vi tus productos en la web y quiero más información";
+    if (producto && precio) {
+      message = `Hola, vi el ${producto} a ${precio} en tu página. ¿Sigue disponible?`;
+    }
+    if (!producto || !precio) {
+      console.warn('Faltan datos del producto para CTA:', { producto, precio, element: cta });
+    }
+    const url = buildWhatsAppUrl(message);
+    window.open(url, '_blank');
   });
 }
 
@@ -175,12 +194,101 @@ function attachRevealAnimations() {
   els.forEach((el) => io.observe(el));
 }
 
+function loadArticlesFromStorage() {
+  try {
+    const raw = localStorage.getItem(ARTICLES_STORAGE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return null;
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function saveArticlesToStorage(articles) {
+  try {
+    localStorage.setItem(ARTICLES_STORAGE_KEY, JSON.stringify(articles));
+  } catch {
+    // Si localStorage está bloqueado, seguimos sin persistencia.
+  }
+}
+
+async function fetchDefaultArticles() {
+  const res = await fetch(ARTICLES_URL, { cache: "no-cache" });
+  if (!res.ok) throw new Error("No se pudieron cargar los artículos.");
+  const data = await res.json();
+  if (!Array.isArray(data)) return [];
+  return data;
+}
+
+function normalizeArticles(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((a) => ({
+      id: typeof a?.id === "number" ? a.id : Number(a?.id),
+      title: typeof a?.title === "string" ? a.title : "",
+      content: typeof a?.content === "string" ? a.content : "",
+      visible: Boolean(a?.visible),
+    }))
+    .filter((a) => Number.isFinite(a.id));
+}
+
+function renderArticles(articles) {
+  const host = document.querySelector("[data-articles-list]");
+  if (!host) return;
+
+  const visible = normalizeArticles(articles).filter((a) => a.visible);
+  if (visible.length === 0) {
+    host.innerHTML = "";
+    return;
+  }
+
+  host.innerHTML = visible
+    .map((a) => {
+      const title = escapeHtml(a.title);
+      const content = escapeHtml(a.content);
+      return `
+        <article class="card reveal">
+          <div class="card-body">
+            <h3 class="card-title">${title}</h3>
+            <p class="card-desc">${content}</p>
+          </div>
+        </article>
+      `.trim();
+    })
+    .join("");
+}
+
+async function initArticles() {
+  const host = document.querySelector("[data-articles-list]");
+  if (!host) return;
+
+  const fromStorage = loadArticlesFromStorage();
+  if (fromStorage) {
+    renderArticles(fromStorage);
+    attachRevealAnimations();
+    return;
+  }
+
+  try {
+    const defaults = await fetchDefaultArticles();
+    const normalized = normalizeArticles(defaults);
+    saveArticlesToStorage(normalized);
+    renderArticles(normalized);
+    attachRevealAnimations();
+  } catch {
+    // Si falla el fetch, no rompemos la landing.
+  }
+}
+
 function init() {
-  attachBuyHandlers();
+  attachWhatsAppHandlers();
   attachModalHandlers();
   attachFabWhatsApp();
   attachSocialLinks();
   attachRevealAnimations();
+  initArticles();
 }
 
 document.addEventListener("DOMContentLoaded", init);

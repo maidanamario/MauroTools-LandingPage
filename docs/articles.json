@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "Artículo de ejemplo",
+    "content": "Este es un artículo de ejemplo. Podés editarlo desde /admin.html.",
+    "visible": true
+  },
+  {
+    "id": 2,
+    "title": "Artículo oculto (no se muestra)",
+    "content": "Si visible=false, no aparece en la landing.",
+    "visible": false
+  }
+]

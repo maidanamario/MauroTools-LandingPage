@@ -50,11 +50,7 @@
 
             <div class="hero-actions">
               <a
-                class="btn btn-primary"
-                href="#"
-                data-buy
-                data-product="Consulta general"
-                data-message='Hola, quiero comprar por WhatsApp. Mi número es: [PHONE]'
+                class="btn btn-primary cta-whatsapp"
               >
                 Comprar ahora
               </a>
@@ -108,11 +104,10 @@
               <li>Ideal para detailing y talleres</li>
             </ul>
             <button
-              class="btn btn-primary btn-full"
+              class="btn btn-primary btn-full cta-whatsapp"
               type="button"
-              data-buy
-              data-product="Pulidora DeWalt DWP849X"
-              data-message="Hola, quiero comprar la pulidora DeWalt con envío gratis. ¿Sigue disponible? Mi número es: [PHONE]"
+              data-producto="Pulidora DeWalt DWP849X"
+              data-precio="$619.999"
             >
               Comprar ahora
             </button>
@@ -150,11 +145,10 @@
                 <div class="card-price">$349.999</div>
                 <p class="card-desc">Kit completo para talleres y trabajos exigentes.</p>
                 <button
-                  class="btn btn-secondary btn-full"
+                  class="btn btn-secondary btn-full cta-whatsapp"
                   type="button"
-                  data-buy
-                  data-product="Kit Profesional 150 piezas Lusqtoff"
-                  data-message="Hola, quiero comprar el Kit Profesional 150 piezas Lusqtoff. Mi número es: [PHONE]"
+                  data-producto="Kit Profesional 150 piezas Lusqtoff"
+                  data-precio="$349.999"
                 >
                   Comprar ahora
                 </button>
@@ -178,17 +172,27 @@
                 <div class="card-price">$74.999</div>
                 <p class="card-desc">Ideal para casa: arreglos rápidos y prolijos.</p>
                 <button
-                  class="btn btn-secondary btn-full"
+                  class="btn btn-secondary btn-full cta-whatsapp"
                   type="button"
-                  data-buy
-                  data-product="Kit Básico Hogar 84 piezas Wadfow"
-                  data-message="Hola, quiero comprar el Kit Básico Hogar 84 piezas Wadfow. Mi número es: [PHONE]"
+                  data-producto="Kit Básico Hogar 84 piezas Wadfow"
+                  data-precio="$74.999"
                 >
                   Comprar ahora
                 </button>
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section class="section" id="articulos" aria-label="Artículos">
+        <div class="container">
+          <div class="section-head">
+            <h2 class="section-title">Artículos</h2>
+            <p class="section-subtitle">Novedades y tips para elegir mejor.</p>
+          </div>
+
+          <div class="grid products-grid" data-articles-list></div>
         </div>
       </section>
 

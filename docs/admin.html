@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f0f10" />
+    <title>Admin | Mauro Tools</title>
+    <link rel="stylesheet" href="./css/admin.css" />
+  </head>
+  <body class="admin">
+    <div class="wrap">
+      <div class="topbar">
+        <div>
+          <h1>Panel de artículos</h1>
+          <p class="sub">
+            Gestioná artículos (crear, editar, eliminar, ocultar/mostrar). Se guardan en tu navegador (localStorage).
+          </p>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" data-action="reset">Restaurar defaults</button>
+          <a class="btn btn-primary" href="./index.html">Volver a la landing</a>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="panel" aria-label="Editor de artículo">
+          <h2 data-form-title>Nuevo artículo</h2>
+
+          <form data-article-form>
+            <div class="field">
+              <label for="title">Título</label>
+              <input id="title" name="title" required maxlength="120" autocomplete="off" />
+            </div>
+
+            <div class="field">
+              <label for="content">Contenido</label>
+              <textarea id="content" name="content" required></textarea>
+            </div>
+
+            <div class="row">
+              <label class="row" style="gap: 8px">
+                <input type="checkbox" name="visible" checked />
+                <span class="small">Visible en la landing</span>
+              </label>
+            </div>
+
+            <div class="row" style="margin-top: 12px">
+              <button class="btn btn-primary" type="submit" data-save>Guardar</button>
+              <button class="btn" type="button" data-cancel hidden>Cancelar</button>
+              <button class="btn btn-danger" type="button" data-delete hidden>Eliminar</button>
+            </div>
+
+            <p class="error" data-error hidden></p>
+            <p class="ok" data-ok hidden></p>
+            <p class="hint">
+              Tip: si editás un artículo, guardá y recargá la landing para ver el cambio.
+            </p>
+          </form>
+        </section>
+
+        <section class="panel" aria-label="Listado de artículos">
+          <h2>Artículos</h2>
+          <div class="list" data-list></div>
+        </section>
+      </div>
+    </div>
+
+    <script defer src="./js/admin.js"></script>
+  </body>
+</html>

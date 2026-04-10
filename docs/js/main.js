@@ -158,6 +158,7 @@ function attachSocialLinks() {
   const social = Array.from(document.querySelectorAll(".social-card"));
   social.forEach((a) => {
     a.addEventListener("click", (e) => {
+      if (a.classList.contains('cta-whatsapp')) return;
       const href = a.getAttribute("href") || "#";
       if (href === "#") {
         e.preventDefault();

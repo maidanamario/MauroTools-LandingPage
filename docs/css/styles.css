@@ -211,15 +211,22 @@ a {
   gap: 10px;
 }
 
+.hero-cta-hint {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 750;
+  color: var(--muted-2);
+}
+
 .btn {
   appearance: none;
   border: 1px solid transparent;
   cursor: pointer;
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 15px 18px;
   font-weight: 900;
   letter-spacing: 0.25px;
-  font-size: 16px;
+  font-size: 17px;
   transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease,
     border-color 160ms ease, color 160ms ease;
   user-select: none;
@@ -297,6 +304,39 @@ a {
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: var(--shadow);
   padding: 16px;
+}
+
+.hero-panel--featured {
+  border-color: rgba(255, 106, 0, 0.28);
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255, 106, 0, 0.12);
+}
+
+.panel-kicker {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.panel-benefit-lead {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 750;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.panel-price-meta {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.panel-price-meta--urgent {
+  color: #ffd6b9;
+  margin-bottom: 10px;
 }
 
 .panel-product-image {
@@ -405,6 +445,20 @@ a {
   color: var(--muted);
   font-weight: 650;
   max-width: 68ch;
+}
+
+.section-urgency {
+  margin: 10px 0 0;
+  font-size: 13px;
+  font-weight: 900;
+  color: rgba(255, 200, 160, 0.95);
+  letter-spacing: 0.15px;
+}
+
+.section-urgency--secondary {
+  margin-top: 4px;
+  font-weight: 800;
+  color: var(--muted-2);
 }
 
 .grid {

@@ -180,21 +180,15 @@ a {
 .hero-bg {
   position: absolute;
   inset: -2px;
-  background:
-    radial-gradient(900px 380px at 15% 10%, rgba(255, 106, 0, 0.24), transparent 55%),
-    radial-gradient(900px 520px at 85% 0%, rgba(255, 255, 255, 0.10), transparent 60%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 40%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='460' viewBox='0 0 700 460'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.08' stroke-width='2'%3E%3Cpath d='M65 318c38-34 75-48 111-41 41 8 64 36 72 85'/%3E%3Cpath d='M207 235l98-88 33 37-98 88z'/%3E%3Cpath d='M370 180l60-54 28 31-60 54z'/%3E%3Cpath d='M460 265c28-14 55-10 82 12 26 22 42 54 47 97'/%3E%3Cpath d='M520 182l110-98 34 38-110 98z'/%3E%3Cpath d='M120 118h140l-18 40H102z'/%3E%3Cpath d='M318 320h220l-22 46H296z'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: cover, cover, cover, 780px auto;
-  background-position: center, center, top, 70% 20%;
-  filter: saturate(1.02) contrast(1.05);
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
 }
 
 .hero-inner {
   position: relative;
   display: grid;
   gap: 18px;
-  z-index: 2;
+  z-index: 3;
 }
 
 .hero-copy {
@@ -228,6 +222,7 @@ a {
   line-height: 1.08;
   letter-spacing: -0.3px;
   color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
@@ -235,6 +230,7 @@ a {
   color: white;
   font-size: clamp(16px, 2.1vw, 20px);
   max-width: 48ch;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .hero-actions {
@@ -247,6 +243,7 @@ a {
   font-size: 13px;
   font-weight: 750;
   color: white;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 .btn {

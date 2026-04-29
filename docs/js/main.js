@@ -5,18 +5,8 @@
  */
 const WHATSAPP_NUMBER = "5491124067624";
 
-const state = {
-  pendingMessage: "",
-  pendingProduct: "",
-  lastFocusedEl: null,
-};
-
 const ARTICLES_STORAGE_KEY = "maurotools_articles_v1";
 const ARTICLES_URL = "./articles.json";
-
-function sanitizeDigits(value) {
-  return String(value || "").replace(/\D+/g, "");
-}
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -37,57 +27,6 @@ function openWhatsApp(message) {
   window.location.href = buildWhatsAppUrl(message);
 }
 
-function getModalEls() {
-  const modal = document.querySelector(".modal");
-  const form = document.querySelector("[data-modal-form]");
-  const phoneInput = document.querySelector("[data-phone-input]");
-  const errorEl = document.querySelector("[data-form-error]");
-  const titleEl = document.getElementById("modalTitle");
-  return { modal, form, phoneInput, errorEl, titleEl };
-}
-
-function openModal({ product, messageTemplate }) {
-  const { modal, phoneInput, errorEl, titleEl } = getModalEls();
-  if (!modal || !phoneInput) return;
-
-  state.pendingProduct = product || "";
-  state.pendingMessage = messageTemplate || "";
-  state.lastFocusedEl = document.activeElement;
-
-  if (titleEl) {
-    titleEl.textContent = product ? `Confirmá tu número (${product})` : "Confirmá tu número";
-  }
-  if (errorEl) errorEl.textContent = "";
-
-  modal.hidden = false;
-  document.body.style.overflow = "hidden";
-
-  phoneInput.value = "";
-  phoneInput.focus({ preventScroll: true });
-}
-
-function closeModal() {
-  const { modal, errorEl } = getModalEls();
-  if (!modal) return;
-
-  modal.hidden = true;
-  document.body.style.overflow = "";
-  if (errorEl) errorEl.textContent = "";
-
-  const el = state.lastFocusedEl;
-  state.lastFocusedEl = null;
-  if (el && typeof el.focus === "function") el.focus();
-}
-
-function validatePhone(raw) {
-  const digits = sanitizeDigits(raw);
-  if (!digits) return { ok: false, digits: "", message: "Ingresá tu número para continuar." };
-  if (!/^\d+$/.test(digits)) return { ok: false, digits: "", message: "Usá solo números." };
-  if (digits.length < 8) return { ok: false, digits: "", message: "El número parece demasiado corto." };
-  if (digits.length > 15) return { ok: false, digits: "", message: "El número parece demasiado largo." };
-  return { ok: true, digits, message: "" };
-}
-
 function attachWhatsAppHandlers() {
   document.addEventListener('click', (e) => {
     const cta = e.target.closest('.cta-whatsapp');
@@ -104,42 +43,6 @@ function attachWhatsAppHandlers() {
     }
     const url = buildWhatsAppUrl(message);
     window.open(url, '_blank');
-  });
-}
-
-function attachModalHandlers() {
-  const { modal, form, phoneInput, errorEl } = getModalEls();
-  if (!modal || !form || !phoneInput) return;
-
-  modal.addEventListener("click", (e) => {
-    const target = e.target;
-    if (!(target instanceof Element)) return;
-    if (target.matches("[data-modal-close]")) closeModal();
-  });
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.hidden) closeModal();
-  });
-
-  phoneInput.addEventListener("input", () => {
-    const before = phoneInput.value;
-    const cleaned = sanitizeDigits(before);
-    if (before !== cleaned) phoneInput.value = cleaned;
-    if (errorEl) errorEl.textContent = "";
-  });
-
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const res = validatePhone(phoneInput.value);
-    if (!res.ok) {
-      if (errorEl) errorEl.textContent = res.message;
-      phoneInput.focus();
-      return;
-    }
-
-    const msg = (state.pendingMessage || "").replace("[PHONE]", res.digits);
-    closeModal();
-    openWhatsApp(msg);
   });
 }
 
@@ -163,10 +66,7 @@ function attachSocialLinks() {
       if (href === "#") {
         e.preventDefault();
         if (a.getAttribute("data-social") === "whatsapp") {
-          openModal({
-            product: "Consulta por WhatsApp",
-            messageTemplate: "Hola, tengo una consulta. Mi número es: [PHONE]",
-          });
+          openWhatsApp("Hola, tengo una consulta.");
           return;
         }
         alert("Pegá aquí el link real de esta red social (Instagram/Facebook/TikTok).");
@@ -260,7 +160,62 @@ function renderArticles(articles) {
     })
     .join("");
 }
+async function fetchProductos() {
+  const res = await fetch("./productos.json", { cache: "no-cache" });
+  if (!res.ok) throw new Error("Error cargando productos");
+  const data = await res.json();
+  if (!Array.isArray(data)) throw new Error("Formato de productos inválido");
+  return data;
+}
 
+function renderProductos(productos) {
+  const contenedor = document.getElementById("productos-lista");
+  if (!contenedor) return;
+
+  contenedor.innerHTML = productos
+    .map((p) => {
+      const imagen = escapeHtml(p.imagen);
+      const titulo = escapeHtml(p.titulo);
+      const precio = escapeHtml(p.precio);
+      const descripcion = escapeHtml(p.descripcion);
+      return `
+        <article class="card reveal">
+          <div class="card-media">
+            <img
+              class="card-product-image"
+              src="${imagen}"
+              alt="${titulo}"
+              loading="lazy"
+            />
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${titulo}</h3>
+            <div class="card-price">${precio}</div>
+            <p class="card-desc">${descripcion}</p>
+            <button
+              class="btn btn-secondary btn-full cta-whatsapp"
+              type="button"
+              data-producto="${titulo}"
+              data-precio="${precio}"
+            >
+              Comprar ahora
+            </button>
+          </div>
+        </article>
+      `.trim();
+    })
+    .join("");
+}
+
+async function initProductos() {
+  try {
+    const productos = await fetchProductos();
+    renderProductos(productos);
+    attachRevealAnimations();
+  } catch (e) {
+    console.error(e);
+  }
+}
 async function initArticles() {
   const host = document.querySelector("[data-articles-list]");
   if (!host) return;
@@ -285,11 +240,11 @@ async function initArticles() {
 
 function init() {
   attachWhatsAppHandlers();
-  attachModalHandlers();
   attachFabWhatsApp();
   attachSocialLinks();
   attachRevealAnimations();
   initArticles();
+  initProductos();
 }
 
 document.addEventListener("DOMContentLoaded", init);

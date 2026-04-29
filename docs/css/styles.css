@@ -735,55 +735,6 @@ a {
   height: 26px;
 }
 
-.modal[hidden] {
-  display: none;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-  display: grid;
-  place-items: center;
-  padding: 16px;
-}
-
-.modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.62);
-}
-
-.modal-card {
-  position: relative;
-  width: min(520px, 100%);
-  border-radius: 18px;
-  background: rgba(31, 31, 31, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: var(--shadow);
-  padding: 14px;
-}
-
-.modal-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.modal-kicker {
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 13px;
-}
-
-.modal-title {
-  margin: 2px 0 0;
-  font-size: 18px;
-  letter-spacing: -0.2px;
-}
-
 .icon-btn {
   width: 44px;
   height: 44px;
@@ -799,11 +750,6 @@ a {
   transform: translateY(-1px);
   background: rgba(255, 255, 255, 0.085);
   border-color: rgba(255, 255, 255, 0.18);
-}
-
-.modal-form {
-  display: grid;
-  gap: 12px;
 }
 
 .field {
@@ -836,11 +782,6 @@ a {
   color: var(--muted-2);
   font-weight: 650;
   font-size: 13px;
-}
-
-.modal-actions {
-  display: grid;
-  gap: 10px;
 }
 
 .form-error {
@@ -907,10 +848,6 @@ a {
 
   .social-grid {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .modal-actions {
-    grid-template-columns: 1fr 1fr;
   }
 }
 

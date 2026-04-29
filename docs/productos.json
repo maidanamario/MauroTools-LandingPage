@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "titulo": "Kit Profesional 150 piezas Lusqtoff",
+    "precio": "$349.999",
+    "imagen": "./assets/images/kit-lusqtoff.webp",
+    "descripcion": "Kit completo para talleres y trabajos exigentes."
+  },
+  {
+    "id": 2,
+    "titulo": "Kit Básico Hogar 84 piezas Wadfow",
+    "precio": "$74.999",
+    "imagen": "./assets/images/kit-wadfow.webp",
+    "descripcion": "Ideal para casa: arreglos rápidos y prolijos."
+  },
+  {
+    "id": 3,
+    "titulo": "MALETIN CON 245 HERRAMIENTAS LQCM245-8",
+    "precio": "$179.999,99",
+    "imagen": "./assets/images/lqcm245-8.webp",
+    "descripcion": "Ideal para casa: arreglos rápidos y prolijos."
+  },
+  {
+    "id": 4,
+    "titulo": "Disco de Corte Rápido Para Acero Inoxidable Metal 115mm x 1.6mm Bosch 2608600215",
+    "precio": "$2.999,99",
+    "imagen": "./assets/images/disco-corte-rapido-bosch.jpg",
+    "descripcion": "Ideal para casa: arreglos rápidos y prolijos."
+  },
+  {
+    "id": 5,
+    "titulo": "Juego Set Kit Maletín con Herramientas x 20pzs Lusqtoff Naranja/Negro L4902",
+    "precio": "$89.999,00",
+    "imagen": "./assets/images/juego-maleltin-con-herramientas-lusqtoff-l4902.jpg",
+    "descripcion": "Ideal para casa: arreglos rápidos y prolijos."
+  },
+  {
+    "id": 6,
+    "titulo": "Generador eléctrico monofásico 800W 2HP KONAN",
+    "precio": "$219.375,00",
+    "imagen": "./assets/images/grupo-electrogeno-portatil-800w-konan.webp",
+    "descripcion": "Ideal para casa: arreglos rápidos y prolijos."
+  },
+  {
+    "id": 7,
+    "titulo": "Crique chato 4 toneladas LOWEN",
+    "precio": "$300.625,00",
+    "imagen": "./assets/images/crique-chato-4t-lowen-.webp",
+    "descripcion": "Ideal para el profesional."
+  }
+]
